@@ -311,7 +311,8 @@ This could be extended to a database for dynamic skill management.
 
 ## 👤 Author
 
-Built by [Your Name] for CodeAtRandom AI Full Stack Developer Assignment
+**Ravish Kumar**  
+CodeAtRandom AI Full Stack Developer Assignment
 
 ## 📄 License
 
@@ -319,5 +320,4 @@ This project is for assignment purposes only.
 
 ---
 
-**Assignment Completion Time**: ~7-8 hours  
 **Last Updated**: November 20, 2025

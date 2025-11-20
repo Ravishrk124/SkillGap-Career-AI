@@ -1,12 +1,5 @@
-/**
- * CodeAtRandom AI - Skill Gap Analysis & Career Roadmap API
- * Backend Server built with Node.js + Express
- * 
- * Features:
- * 1. Skill Gap Analyzer - Compares user skills with target role requirements
- * 2. Career Roadmap Generator - Provides learning path for target roles
- * 3. HackerNews Integration - Fetches latest tech news
- */
+// Simple skill gap API for CodeAtRandom assignment
+// Built by Ravish Kumar
 
 const express = require('express');
 const cors = require('cors');
@@ -16,41 +9,17 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Configuration
 app.use(cors()); // Enable CORS for all routes (allows frontend to communicate with backend)
 app.use(bodyParser.json()); // Parse JSON request bodies
 
-// ========================================
-// DATA: Predefined skill sets for each role
-// ========================================
+// Predefined skills for each role
 const ROLE_SKILLS = {
     "Frontend Developer": ["HTML", "CSS", "JavaScript", "React", "Git"],
     "Backend Developer": ["Java", "Spring Boot", "SQL", "APIs", "Git"],
     "Data Analyst": ["Excel", "SQL", "Python", "Dashboards", "Statistics"]
 };
 
-// ========================================
-// API 1: SKILL GAP ANALYZER
-// ========================================
-/**
- * POST /api/skill-gap
- * Analyzes the gap between user's current skills and target role requirements
- * 
- * Request Body:
- * {
- *   "role": "Backend Developer",
- *   "skills": "Java, SQL, HTML"
- * }
- * 
- * Response:
- * {
- *   "role": "Backend Developer",
- *   "matchedSkills": ["Java", "SQL"],
- *   "missingSkills": ["Spring Boot", "APIs", "Git"],
- *   "recommendations": ["Master Spring Boot to fit the role.", ...],
- *   "suggestedLearningOrder": ["Spring Boot", "APIs", "Git"]
- * }
- */
+// Skill Gap API - compares user skills with role requirements
 app.post('/api/skill-gap', (req, res) => {
     try {
         const { role, skills } = req.body;
@@ -74,7 +43,7 @@ app.post('/api/skill-gap', (req, res) => {
             });
         }
 
-        // Parse and normalize user skills (convert to lowercase for comparison)
+        // Convert to lowercase for case-insensitive matching
         const userSkills = skills.split(',').map(s => s.trim().toLowerCase());
 
         // Find matched and missing skills
@@ -103,25 +72,7 @@ app.post('/api/skill-gap', (req, res) => {
 // ========================================
 // API 2: CAREER ROADMAP GENERATOR
 // ========================================
-/**
- * POST /api/roadmap
- * Generates a 3-phase learning roadmap for the target role
- * 
- * Request Body:
- * {
- *   "role": "Backend Developer"
- * }
- * 
- * Response:
- * {
- *   "role": "Backend Developer",
- *   "roadmap": [
- *     { "phase": "Phase 1 (1-2 Mo)", "focus": "..." },
- *     { "phase": "Phase 2 (2 Mo)", "focus": "..." },
- *     { "phase": "Phase 3 (1-2 Mo)", "focus": "..." }
- *   ]
- * }
- */
+// Career Roadmap API - returns 3-phase learning path for each role
 app.post('/api/roadmap', (req, res) => {
     try {
         const { role } = req.body;
@@ -136,7 +87,7 @@ app.post('/api/roadmap', (req, res) => {
 
         let roadmap = [];
 
-        // Generate role-specific roadmaps (Mock AI logic)
+        // Different roadmaps for each role
         if (role === "Backend Developer") {
             roadmap = [
                 {
@@ -198,26 +149,7 @@ app.post('/api/roadmap', (req, res) => {
     }
 });
 
-// ========================================
-// API 3: HACKERNEWS INTEGRATION
-// ========================================
-/**
- * GET /api/news
- * Fetches top 5 latest tech stories from HackerNews API
- * 
- * Response:
- * [
- *   {
- *     "title": "Story Title",
- *     "url": "https://...",
- *     "score": 245,
- *     "time": "11/20/2025",
- *     "type": "story",
- *     "by": "username"
- *   },
- *   ...
- * ]
- */
+// HackerNews API - fetches top 5 tech stories
 app.get('/api/news', async (req, res) => {
     try {
         // Step 1: Fetch top story IDs from HackerNews
@@ -250,13 +182,7 @@ app.get('/api/news', async (req, res) => {
     }
 });
 
-// ========================================
-// HEALTH CHECK ENDPOINT
-// ========================================
-/**
- * GET /api/health
- * Simple health check to verify server is running
- */
+// Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({
         status: 'OK',
@@ -265,9 +191,7 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// ========================================
-// START SERVER
-// ========================================
+// Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`📊 API Endpoints:`);

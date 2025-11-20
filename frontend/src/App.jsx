@@ -1,55 +1,33 @@
-/**
- * CodeAtRandom AI - Skill Gap Analysis & Career Roadmap
- * Main Application Component
- * 
- * Features:
- * - Career goal input form
- * - Skill gap analysis display
- * - Career roadmap visualization
- * - Latest tech news from HackerNews
- */
+// Main app for skill gap analysis
+// By Ravish Kumar
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Backend API base URL (change for production deployment)
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function App() {
-  // ========================================
-  // STATE MANAGEMENT
-  // ========================================
-  const [role, setRole] = useState('Backend Developer'); // Selected target role
-  const [skills, setSkills] = useState(''); // User's current skills (comma-separated)
-  const [data, setData] = useState(null); // Combined analysis data (gap + roadmap)
-  const [news, setNews] = useState([]); // HackerNews stories
-  const [loading, setLoading] = useState(false); // Loading state for analysis
-  const [error, setError] = useState(''); // Error message
+  const [role, setRole] = useState('Backend Developer');
+  const [skills, setSkills] = useState('');
+  const [data, setData] = useState(null);
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  // ========================================
-  // FETCH HACKERNEWS ON COMPONENT MOUNT
-  // ========================================
+  // Fetch news when page loads
   useEffect(() => {
     fetchNews();
   }, []);
 
-  /**
-   * Fetches top 5 tech stories from HackerNews API
-   */
   const fetchNews = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/news`);
       setNews(response.data);
     } catch (err) {
       console.error('Error fetching news:', err);
-      // Don't show error to user for news - it's not critical
     }
   };
 
-  /**
-   * Validates user input before sending to API
-   * @returns {boolean} true if valid, false otherwise
-   */
   const validateInput = () => {
     if (!skills.trim()) {
       setError('Please enter your current skills');
@@ -59,24 +37,19 @@ export default function App() {
     return true;
   };
 
-  /**
-   * Handles career analysis by calling both skill-gap and roadmap APIs
-   */
   const handleAnalyze = async () => {
-    // Validate input first
     if (!validateInput()) return;
 
     setLoading(true);
     setError('');
 
     try {
-      // Call both APIs in parallel for better performance
+      // Call both APIs at the same time
       const [gapRes, roadmapRes] = await Promise.all([
         axios.post(`${API_BASE_URL}/api/skill-gap`, { role, skills }),
         axios.post(`${API_BASE_URL}/api/roadmap`, { role })
       ]);
 
-      // Store combined results
       setData({ gap: gapRes.data, roadmap: roadmapRes.data });
     } catch (err) {
       console.error('Error analyzing career:', err);
@@ -95,17 +68,13 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 p-6 font-sans text-slate-800">
       <div className="max-w-6xl mx-auto space-y-8">
 
-        {/* ========================================
-            HEADER SECTION
-            ======================================== */}
+        {/* Header */}
         <header className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-blue-600 tracking-tight">SkillGap & Career AI</h1>
           <p className="text-slate-500">Analyze your profile, get a roadmap, and stay updated.</p>
         </header>
 
-        {/* ========================================
-            INPUT FORM SECTION
-            ======================================== */}
+        {/* Input Form */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
           {/* Form Inputs */}
           <div className="flex flex-col md:flex-row gap-4 items-end">
@@ -158,12 +127,10 @@ export default function App() {
           )}
         </div>
 
-        {/* ========================================
-            DASHBOARD SECTION (After Analysis)
-            ======================================== */}
+        {/* Dashboard - shows results after analysis */}
         {data && (
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Left Panel: Skill Gap Analysis */}
+            {/* Skill Gap Results */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
               <h2 className="text-xl font-bold mb-4 text-red-500 border-b pb-2">Skill Gap Analysis</h2>
               <div className="space-y-4">
@@ -189,7 +156,7 @@ export default function App() {
                   <p className="text-sm text-blue-700">{data.gap.recommendations[0] || "Good match!"}</p>
                 </div>
 
-                {/* Suggested Learning Order */}
+                {/* Learning order */}
                 {data.gap.suggestedLearningOrder && data.gap.suggestedLearningOrder.length > 0 && (
                   <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                     <h3 className="font-bold text-purple-800 text-sm mb-2">📚 Suggested Learning Order</h3>
@@ -208,7 +175,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Panel: Career Roadmap */}
+            {/* Career Roadmap */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
               <h2 className="text-xl font-bold mb-4 text-blue-500 border-b pb-2">Career Roadmap</h2>
               <div className="space-y-4 relative pl-4 border-l-2 border-blue-100">
@@ -224,9 +191,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ========================================
-            HACKERNEWS SECTION
-            ======================================== */}
+        {/* HackerNews Section */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h2 className="text-xl font-bold mb-4 text-slate-800">🔥 Latest Tech News (HackerNews)</h2>
           <div className="grid gap-4 md:grid-cols-1">
