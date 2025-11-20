@@ -76,11 +76,10 @@ export default function App() {
 
         {/* Input Form */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
-          {/* Form Inputs */}
-          <div className="flex flex-col md:flex-row gap-4 items-end">
-            {/* Target Role Dropdown */}
-            <div className="flex-1 w-full">
-              <label className="block text-sm font-medium mb-1 text-slate-600">Target Role</label>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            {/* Target Role - takes 3 columns on desktop */}
+            <div className="md:col-span-3">
+              <label className="block text-sm font-medium mb-2 text-slate-600">Target Role</label>
               <select
                 value={role}
                 onChange={e => setRole(e.target.value)}
@@ -92,9 +91,9 @@ export default function App() {
               </select>
             </div>
 
-            {/* Current Skills Input */}
-            <div className="flex-[2] w-full">
-              <label className="block text-sm font-medium mb-1 text-slate-600">
+            {/* Current Skills - takes 6 columns on desktop */}
+            <div className="md:col-span-6">
+              <label className="block text-sm font-medium mb-2 text-slate-600">
                 Current Skills <span className="text-xs text-slate-400">(comma separated)</span>
               </label>
               <input
@@ -102,24 +101,25 @@ export default function App() {
                 value={skills}
                 onChange={e => {
                   setSkills(e.target.value);
-                  if (error) setError(''); // Clear error on input
+                  if (error) setError('');
                 }}
                 className={`w-full p-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none ${error ? 'border-red-500' : ''
                   }`}
               />
             </div>
 
-            {/* Analyze Button */}
-            <button
-              onClick={handleAnalyze}
-              disabled={loading}
-              className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-            >
-              {loading ? '⏳ Analyzing...' : '🎯 Analyze My Career'}
-            </button>
+            {/* Analyze Button - takes 3 columns on desktop */}
+            <div className="md:col-span-3 md:flex md:items-end">
+              <button
+                onClick={handleAnalyze}
+                disabled={loading}
+                className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? '⏳ Analyzing...' : '🎯 Analyze My Career'}
+              </button>
+            </div>
           </div>
 
-          {/* Error Message Display */}
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
               ⚠️ {error}
