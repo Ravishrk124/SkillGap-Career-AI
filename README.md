@@ -4,8 +4,8 @@ A full-stack web application that analyzes skill gaps, generates career roadmaps
 
 ## 🚀 Live Demo
 
-- **Frontend**: [Deployed on Vercel] (To be added after deployment)
-- **Backend API**: [Deployed on Render/Railway] (To be added after deployment)
+- **Frontend**: https://skill-gap-career-ai.vercel.app/
+- **Backend API**: https://skillgap-career-ai.onrender.com
 
 ## 📋 Table of Contents
 
