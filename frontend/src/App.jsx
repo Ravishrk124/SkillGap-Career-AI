@@ -75,15 +75,17 @@ export default function App() {
         </header>
 
         {/* Input Form */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-            {/* Target Role - takes 3 columns on desktop */}
-            <div className="md:col-span-3">
-              <label className="block text-sm font-medium mb-2 text-slate-600">Target Role</label>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <div className="space-y-4">
+            {/* Target Role */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-slate-700">
+                Target Role
+              </label>
               <select
                 value={role}
                 onChange={e => setRole(e.target.value)}
-                className="w-full p-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full p-3 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition"
               >
                 <option>Backend Developer</option>
                 <option>Frontend Developer</option>
@@ -91,40 +93,42 @@ export default function App() {
               </select>
             </div>
 
-            {/* Current Skills - takes 6 columns on desktop */}
-            <div className="md:col-span-6">
-              <label className="block text-sm font-medium mb-2 text-slate-600">
-                Current Skills <span className="text-xs text-slate-400">(comma separated)</span>
+            {/* Current Skills */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-slate-700">
+                Current Skills <span className="text-xs font-normal text-slate-400">(comma separated)</span>
               </label>
               <input
+                type="text"
                 placeholder="e.g. Java, SQL, HTML"
                 value={skills}
                 onChange={e => {
                   setSkills(e.target.value);
                   if (error) setError('');
                 }}
-                className={`w-full p-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none ${error ? 'border-red-500' : ''
+                className={`w-full p-3 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition ${error ? 'border-red-500' : 'border-slate-300'
                   }`}
               />
             </div>
 
-            {/* Analyze Button - takes 3 columns on desktop */}
-            <div className="md:col-span-3 md:flex md:items-end">
+            {/* Analyze Button */}
+            <div className="pt-2">
               <button
                 onClick={handleAnalyze}
                 disabled={loading}
-                className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
               >
                 {loading ? '⏳ Analyzing...' : '🎯 Analyze My Career'}
               </button>
             </div>
-          </div>
 
-          {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-              ⚠️ {error}
-            </div>
-          )}
+            {/* Error Message */}
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-700">⚠️ {error}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Dashboard - shows results after analysis */}
